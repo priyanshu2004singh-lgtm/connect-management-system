@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Connect is a modern contact and relationship management system.">
+  <meta name="theme-color" content="#0b1220">
+  <title>Connect | Contact Management</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar" id="sidebar" aria-label="Sidebar">
+      <div class="sidebar-head">
+        <a class="brand" href="/" aria-label="Connect home">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M8.5 14.5 6 17a3.5 3.5 0 0 1-5-5l3-3a3.5 3.5 0 0 1 5 0"></path>
+              <path d="m15.5 9.5 2.5-2.5a3.5 3.5 0 0 1 5 5l-3 3a3.5 3.5 0 0 1-5 0"></path>
+              <path d="m8 16 8-8"></path>
+            </svg>
+          </span>
+          <span class="brand-copy">
+            <strong>Connect</strong>
+            <small>Relationship CRM</small>
+          </span>
+        </a>
+        <button class="icon-button sidebar-close" id="sidebarClose" type="button" aria-label="Close navigation">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <path d="m6 6 12 12M18 6 6 18"></path>
+          </svg>
+        </button>
+      </div>
+
+      <nav class="main-nav" aria-label="Primary navigation">
+        <a class="nav-item active" href="/" aria-current="page">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+            <circle cx="9" cy="7" r="4"></circle>
+            <path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"></path>
+          </svg>
+          <span>Contacts</span>
+          <span class="nav-count" id="navContactCount">0</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-section">
+        <div class="sidebar-section-head">
+          <span>Relationships</span>
+          <span class="sidebar-total" id="sidebarTagTotal"></span>
+        </div>
+        <div class="sidebar-tags" id="sidebarTags">
+          <div class="sidebar-skeleton"></div>
+          <div class="sidebar-skeleton"></div>
+          <div class="sidebar-skeleton"></div>
+        </div>
+      </div>
+
+      <div class="sidebar-note">
+        <span class="sidebar-note-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"></path>
+          </svg>
+        </span>
+        <div>
+          <strong>Your data stays local</strong>
+          <p>Contacts are stored securely in your own SQLite database.</p>
+        </div>
+      </div>
+
+      <div class="sidebar-footer">
+        <span class="workspace-avatar">C</span>
+        <div class="workspace-copy">
+          <strong>Connect Workspace</strong>
+          <span><i class="status-dot"></i> Local database</span>
+        </div>
+      </div>
+    </aside>
+
+    <div class="sidebar-scrim" id="sidebarScrim"></div>
+
+    <main class="main">
+      <header class="page-header">
+        <div class="header-copy">
+          <button class="icon-button mobile-menu" id="mobileMenu" type="button" aria-label="Open navigation">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+              <path d="M4 7h16M4 12h16M4 17h16"></path>
+            </svg>
+          </button>
+          <div>
+            <span class="eyebrow">Workspace / Contacts</span>
+            <h1>Your connections, in focus.</h1>
+            <p>Keep every relationship organized, current, and easy to find.</p>
+          </div>
+        </div>
+        <div class="header-actions">
+          <button class="button button-primary" id="addContactBtn" type="button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true">
+              <path d="M12 5v14M5 12h14"></path>
+            </svg>
+            Add contact
+          </button>
+        </div>
+      </header>
+
+      <section class="stats-grid" aria-label="Contact overview">
+        <article class="stat-card">
+          <div class="stat-icon stat-icon-indigo" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+              <circle cx="9" cy="7" r="4"></circle>
+              <path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"></path>
+            </svg>
+          </div>
+          <div class="stat-copy">
+            <span>Total contacts</span>
+            <strong id="statTotal">0</strong>
+          </div>
+          <span class="stat-trend" id="statCompanies">0 companies</span>
+        </article>
+
+        <article class="stat-card">
+          <div class="stat-icon stat-icon-violet" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 7h-9M14 17H5"></path>
+              <circle cx="17" cy="17" r="3"></circle>
+              <circle cx="7" cy="7" r="3"></circle>
+            </svg>
+          </div>
+          <div class="stat-copy">
+            <span>Active clients</span>
+            <strong id="statClients">0</strong>
+          </div>
+          <span class="stat-trend">Client relationships</span>
+        </article>
+
+        <article class="stat-card">
+          <div class="stat-icon stat-icon-amber" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M13 2 3 14h9l-1 8 10-12h-9l1-8Z"></path>
+            </svg>
+          </div>
+          <div class="stat-copy">
+            <span>Open leads</span>
+            <strong id="statLeads">0</strong>
+          </div>
+          <span class="stat-trend">Ready to follow up</span>
+        </article>
+
+        <article class="stat-card">
+          <div class="stat-icon stat-icon-emerald" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+            </svg>
+          </div>
+          <div class="stat-copy">
+            <span>Recent interactions</span>
+            <strong id="statRecent">0</strong>
+          </div>
+          <span class="stat-trend">In the last 30 days</span>
+        </article>
+      </section>
+
+      <section class="panel" aria-labelledby="contactsTitle">
+        <div class="panel-top">
+          <div class="panel-title">
+            <div class="title-line">
+              <h2 id="contactsTitle">All contacts</h2>
+              <span class="count-badge" id="resultCount">0</span>
+            </div>
+            <p id="resultSummary">Loading your connections...</p>
+          </div>
+          <label class="sort-control" for="sortSelect">
+            <span>Sort by</span>
+            <select id="sortSelect">
+              <option value="recent">Last interaction</option>
+              <option value="name">Name A to Z</option>
+              <option value="newest">Recently added</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="panel-tools">
+          <label class="search-field" for="searchInput">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true">
+              <circle cx="11" cy="11" r="7"></circle>
+              <path d="m20 20-3.5-3.5"></path>
+            </svg>
+            <input type="search" id="searchInput" placeholder="Search by name, company, or email..." autocomplete="off">
+            <kbd>/</kbd>
+          </label>
+          <div class="filter-group">
+            <span class="filter-label">Filter</span>
+            <div class="filter-chips" id="filterChips" role="group" aria-label="Filter contacts by relationship">
+              <button class="filter-chip active" type="button" data-tag="" aria-pressed="true">All</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="table-shell">
+          <table class="contacts-table">
+            <caption class="sr-only">Saved contacts with their contact details and relationships</caption>
+            <thead>
+              <tr>
+                <th scope="col">Contact</th>
+                <th scope="col">Phone</th>
+                <th scope="col">Company</th>
+                <th scope="col">Relationship</th>
+                <th scope="col">Last interaction</th>
+                <th scope="col"><span class="sr-only">Actions</span></th>
+              </tr>
+            </thead>
+            <tbody id="contactsBody"></tbody>
+          </table>
+        </div>
+
+        <div class="table-loading" id="tableLoading" hidden>
+          <span class="loading-spinner" aria-hidden="true"></span>
+          <span>Loading contacts...</span>
+        </div>
+
+        <div class="empty-state" id="emptyState" hidden>
+          <div class="empty-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+              <circle cx="9" cy="7" r="4"></circle>
+              <path d="M19 8v6M22 11h-6"></path>
+            </svg>
+          </div>
+          <h3 id="emptyTitle">No contacts yet</h3>
+          <p id="emptyText">Add your first contact to start building your network.</p>
+          <button class="button button-primary" id="emptyActionBtn" type="button">Add contact</button>
+        </div>
+      </section>
+
+      <footer class="page-footer">
+        <span>Connect CRM</span>
+        <span>Built for meaningful relationships.</span>
+      </footer>
+    </main>
+  </div>
+
+  <dialog class="modal" id="contactDialog" aria-labelledby="dialogTitle">
+    <div class="modal-card">
+      <div class="modal-head">
+        <div class="modal-heading">
+          <div class="modal-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+              <circle cx="9" cy="7" r="4"></circle>
+              <path d="M19 8v6M22 11h-6"></path>
+            </svg>
+          </div>
+          <div>
+            <h2 id="dialogTitle">Add contact</h2>
+            <p id="dialogSubtitle">Create a new relationship in your network.</p>
+          </div>
+        </div>
+        <button class="icon-button" id="closeContactDialog" type="button" aria-label="Close dialog">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <path d="m6 6 12 12M18 6 6 18"></path>
+          </svg>
+        </button>
+      </div>
+
+      <form id="contactForm" novalidate>
+        <input type="hidden" id="contactId" name="id">
+        <div class="modal-body">
+          <div class="form-grid">
+            <div class="field field-full" data-field="name">
+              <label for="fullName">Full name <span class="required">*</span></label>
+              <input type="text" id="fullName" name="name" maxlength="120" autocomplete="name" placeholder="e.g. Maya Chen" required>
+              <p class="field-error" aria-live="polite"></p>
+            </div>
+
+            <div class="field" data-field="email">
+              <label for="email">Email address <span class="required">*</span></label>
+              <input type="email" id="email" name="email" maxlength="254" autocomplete="email" placeholder="name@company.com" required>
+              <p class="field-error" aria-live="polite"></p>
+            </div>
+
+            <div class="field" data-field="phone">
+              <label for="phone">Phone number <span class="required">*</span></label>
+              <input type="tel" id="phone" name="phone" maxlength="30" autocomplete="tel" placeholder="+1 (555) 000-0000" required>
+              <p class="field-error" aria-live="polite"></p>
+            </div>
+
+            <div class="field" data-field="company">
+              <label for="company">Company</label>
+              <input type="text" id="company" name="company" maxlength="120" autocomplete="organization" placeholder="Company name">
+              <p class="field-error" aria-live="polite"></p>
+            </div>
+
+            <div class="field" data-field="jobTitle">
+              <label for="jobTitle">Job title</label>
+              <input type="text" id="jobTitle" name="jobTitle" maxlength="120" autocomplete="organization-title" placeholder="Role or position">
+              <p class="field-error" aria-live="polite"></p>
+            </div>
+
+            <div class="field" data-field="lastInteractionDate">
+              <label for="lastInteractionDate">Last interaction</label>
+              <input type="date" id="lastInteractionDate" name="lastInteractionDate">
+              <p class="field-error" aria-live="polite"></p>
+            </div>
+
+            <fieldset class="field field-full tag-fieldset" data-field="tags">
+              <legend>Relationship tags <span class="optional">Optional</span></legend>
+              <div class="tag-options" id="tagOptions"></div>
+              <p class="field-error" aria-live="polite"></p>
+            </fieldset>
+
+            <div class="field field-full" data-field="notes">
+              <label for="notes">Notes <span class="optional">Optional</span></label>
+              <textarea id="notes" name="notes" maxlength="2000" rows="3" placeholder="Context, next steps, or anything worth remembering..."></textarea>
+              <p class="field-error" aria-live="polite"></p>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button class="button button-ghost" id="cancelContactBtn" type="button">Cancel</button>
+          <button class="button button-primary" id="saveContactBtn" type="submit">
+            <span class="button-label">Save contact</span>
+            <span class="spinner" aria-hidden="true"></span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </dialog>
+
+  <dialog class="modal modal-small" id="deleteDialog" aria-labelledby="deleteTitle">
+    <div class="modal-card">
+      <div class="delete-content">
+        <div class="delete-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 6h18M8 6V4h8v2M19 6l-1 15H6L5 6M10 11v5M14 11v5"></path>
+          </svg>
+        </div>
+        <h2 id="deleteTitle">Delete contact?</h2>
+        <p>This will permanently remove <strong id="deleteContactName">this contact</strong> and their details. This action cannot be undone.</p>
+      </div>
+      <div class="modal-footer modal-footer-center">
+        <button class="button button-ghost" id="cancelDeleteBtn" type="button">Keep contact</button>
+        <button class="button button-danger" id="confirmDeleteBtn" type="button">
+          <span class="button-label">Delete contact</span>
+          <span class="spinner" aria-hidden="true"></span>
+        </button>
+      </div>
+    </div>
+  </dialog>
+
+  <div class="toast-region" id="toastRegion" aria-live="polite" aria-atomic="false"></div>
+
+  <script src="/script.js" defer></script>
+</body>
+</html>
